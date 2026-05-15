@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ambica Home Decor — Luxury Living</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@100;300;400;600&family=Playfair+Display:ital,wght@0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --black:#1a0e04;
+  --rich-black:#ede8df;
+  --dark:#e2d9cc;
+  --gold:#c9a84c;
+  --gold-light:#e8c97a;
+  --gold-pale:#f5e6b8;
+  --gold-dim:#7a6128;
+  --cream:#f5f5f5;
+  --warm-white:#f8f2e8;
+  --muted:#6b5038;
+  --border:rgba(160,110,30,0.2);
+}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--black);
+  font-family:'Josefin Sans',sans-serif;
+  overflow-x:hidden;
+  cursor:none;
+  scroll-behavior:smooth;
+}
+
+/* ── CURSOR ── */
+.cursor{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s,background .3s;mix-blend-mode:difference;}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,168,76,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .14s ease-out,width .3s,height .3s;}
+
+/* ── CANVAS ── */
+#particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:28px 60px;
+  display:flex;justify-content:space-between;align-items:center;
+  background:linear-gradient(to bottom,rgba(248,242,232,.97) 0%,transparent 100%);
+  border-bottom:1px solid transparent;
+  transition:border-color .4s,background .4s;
+}
+nav.scrolled{background:rgba(248,242,232,.98);border-color:var(--border);}
+.nav-brand img,.nav-logo img{height:52px;filter:drop-shadow(0 0 12px rgba(201,168,76,.3));}
+.nav-links{display:flex;gap:44px;list-style:none;}
+.nav-links a{color:rgba(26,14,4,.55);text-decoration:none;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:300;transition:color .3s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{padding:12px 28px;border:1px solid var(--gold-dim);color:var(--gold);font-size:10px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;transition:all .3s;font-weight:300;}
+.nav-cta:hover{background:var(--gold);color:var(--black);}
+
+/* ── HERO ── */
+.hero{
+  position:relative;height:auto;
+  display:flex;align-items:flex-start;justify-content:center;
+  overflow:hidden;z-index:1;
+  perspective:1000px;
+  padding-top:60px;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 50%,rgba(201,168,76,.1) 0%,transparent 70%),
+    radial-gradient(ellipse 100% 100% at 50% 0%,rgba(201,168,76,.06) 0%,transparent 50%);
+}
+/* Art deco lines */
+.deco-lines{position:absolute;inset:0;overflow:hidden;opacity:.12;}
+.deco-lines::before,.deco-lines::after{
+  content:'';position:absolute;
+  border:1px solid var(--gold);
+  border-radius:50%;
+  animation:decoSpin linear infinite;
+}
+.deco-lines::before{width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:40s;}
+.deco-lines::after{width:900px;height:900px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:60s;animation-direction:reverse;}
+@keyframes decoSpin{from{transform:translate(-50%,-50%) rotate(0deg);}to{transform:translate(-50%,-50%) rotate(360deg);}}
+
+.hero-content{
+  position:relative;z-index:2;
+  text-align:center;
+  max-width:860px;padding:0 40px;
+}
+.hero-logo-wrap{
+  margin-bottom:48px;
+  margin-top:120px;
+  animation:heroLogoIn 1.4s cubic-bezier(.16,1,.3,1) forwards;
+  opacity:0;
+}
+.hero-logo-wrap img{
+  height:130px;
+  max-width:320px;
+  object-fit:contain;
+  filter:drop-shadow(0 0 30px rgba(201,168,76,.4)) drop-shadow(0 0 60px rgba(201,168,76,.2));
+  animation:logoFloat 6s ease-in-out infinite;
+}
+@keyframes heroLogoIn{from{opacity:0;transform:translateY(-30px) scale(.9);}to{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes logoFloat{0%,100%{transform:translateY(0);}25%{transform:translateY(-10px);}75%{transform:translateY(-6px);}}
+
+.hero-tag{
+  display:inline-block;
+  font-size:10px;letter-spacing:6px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:28px;
+  opacity:0;animation:fadeUp .8s .4s forwards;
+  position:relative;
+}
+.hero-tag::before,.hero-tag::after{content:'——';opacity:.4;margin:0 12px;}
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(52px,7vw,96px);
+  font-weight:900;line-height:1;
+  letter-spacing:-1px;margin-bottom:20px;
+  opacity:0;animation:fadeUp .8s .6s forwards;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.hero-title span{
+  font-style:italic;font-weight:400;
+  font-size:clamp(36px,5vw,72px);
+  background:linear-gradient(135deg,var(--gold-dim),var(--gold),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{
+  font-size:13px;letter-spacing:4px;color:var(--muted);
+  text-transform:uppercase;margin-bottom:60px;
+  opacity:0;animation:fadeUp .8s .8s forwards;
+}
+.hero-btns{
+  display:flex;gap:20px;justify-content:center;
+  opacity:0;animation:fadeUp .8s 1s forwards;
+}
+.btn-gold{
+  padding:18px 48px;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 50%,var(--gold) 100%);
+  color:var(--black);font-size:10px;letter-spacing:4px;text-transform:uppercase;
+  text-decoration:none;font-weight:600;
+  background-size:200% 100%;
+  transition:background-position .4s,transform .3s,box-shadow .3s;
+  box-shadow:0 8px 32px rgba(201,168,76,.2);
+}
+button.btn-gold{font:inherit;border:none;cursor:pointer;}
+.btn-gold:hover{background-position:100% 0;transform:translateY(-3px);box-shadow:0 16px 48px rgba(201,168,76,.35);}
+.btn-outline{
+  padding:18px 48px;border:1px solid var(--gold-dim);
+  color:var(--gold);font-size:10px;letter-spacing:4px;text-transform:uppercase;
+  text-decoration:none;transition:all .3s;
+}
+.btn-outline:hover{background:rgba(201,168,76,.08);border-color:var(--gold);transform:translateY(-3px);}
+
+.scroll-hint{
+  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  opacity:0;animation:fadeUp .8s 1.4s forwards;
+}
+.scroll-hint span{font-size:9px;letter-spacing:4px;color:var(--muted);text-transform:uppercase;}
+.scroll-bar{width:1px;height:50px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollAnim 2s ease-in-out infinite;}
+@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── MARQUEE ── */
+.marquee-wrap{
+  position:relative;z-index:2;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:18px 0;overflow:hidden;
+  background:rgba(201,168,76,.06);
+}
+.marquee-track{
+  display:flex;gap:60px;
+  animation:marqueeScroll 25s linear infinite;
+  white-space:nowrap;
+}
+.marquee-track span{
+  font-size:10px;letter-spacing:5px;color:var(--gold-dim);
+  text-transform:uppercase;flex-shrink:0;
+}
+.marquee-track .dot{color:var(--gold);font-size:6px;line-height:2;}
+@keyframes marqueeScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ── COLLECTION SECTION ── */
+.collection{position:relative;z-index:2;padding:120px 8%;}
+.section-label{
+  display:flex;align-items:center;gap:16px;
+  font-size:9px;letter-spacing:5px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:24px;
+}
+.section-label::before{content:'';width:40px;height:1px;background:var(--gold);}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(40px,5vw,68px);
+  font-weight:700;line-height:1.1;
+  margin-bottom:64px;max-width:520px;
+}
+.section-title em{font-style:italic;color:var(--gold);}
+
+.cards-3d{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+  perspective:1200px;
+}
+.card-3d{
+  position:relative;overflow:hidden;
+  height:480px;background:var(--rich-black);
+  transform-style:preserve-3d;
+  transition:transform .6s cubic-bezier(.23,1,.32,1);
+  cursor:pointer;
+  opacity:0;transform:translateY(60px) rotateX(8deg);
+  transition:opacity .7s,transform .7s;
+}
+.card-3d.visible{opacity:1;transform:translateY(0) rotateX(0deg);}
+.card-3d:hover{transform:translateY(-8px) scale(1.02) rotateX(-2deg);}
+.card-inner{
+  position:absolute;inset:0;
+  background:linear-gradient(to top, rgba(10,6,2,.92) 0%, transparent 60%);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:40px 36px;
+}
+/* Simulated room images via CSS */
+.card-visual{
+  position:absolute;inset:0;
+  transition:transform .8s cubic-bezier(.23,1,.32,1);
+}
+.card-3d:hover .card-visual{transform:scale(1.06) rotateX(5deg) rotateY(5deg);}
+.room-living{
+  background:
+    linear-gradient(180deg,rgba(6,4,2,0) 40%,rgba(6,4,2,.85) 100%),
+    radial-gradient(ellipse 60% 40% at 50% 30%,rgba(201,168,76,.08) 0%,transparent 60%),
+    linear-gradient(135deg,#1a120a 0%,#2a1e12 30%,#1a0e06 60%,#0d0805 100%);
+}
+.room-bedroom{
+  background:
+    linear-gradient(180deg,rgba(6,4,2,0) 40%,rgba(6,4,2,.85) 100%),
+    radial-gradient(ellipse 50% 50% at 60% 40%,rgba(201,168,76,.06) 0%,transparent 60%),
+    linear-gradient(160deg,#0e1218 0%,#1a2030 40%,#0e0e14 100%);
+}
+.room-dining{
+  background:
+    linear-gradient(180deg,rgba(6,4,2,0) 40%,rgba(6,4,2,.85) 100%),
+    radial-gradient(ellipse 70% 50% at 40% 30%,rgba(201,168,76,.07) 0%,transparent 60%),
+    linear-gradient(150deg,#120e0a 0%,#1e1610 50%,#0a0806 100%);
+}
+.card-deco{
+  position:absolute;top:0;left:0;right:0;
+  height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  transform:scaleX(0);transition:transform .4s;
+}
+.card-3d:hover .card-deco{transform:scaleX(1);}
+/* Furniture silhouettes via SVG in pseudo */
+.room-living::after,.room-bedroom::after,.room-dining::after{
+  content:'';position:absolute;inset:0;
+  opacity:.15;background-size:cover;
+}
+.card-tag{
+  position:absolute;top:28px;right:28px;
+  font-size:9px;letter-spacing:3px;color:var(--gold);
+  text-transform:uppercase;border:1px solid rgba(201,168,76,.3);
+  padding:6px 14px;background:rgba(10,6,2,.65);backdrop-filter:blur(4px);
+}
+.card-name{
+  font-family:'Playfair Display',serif;
+  font-size:28px;font-weight:700;margin-bottom:8px;
+  position:relative;z-index:2;color:#f5ede0;
+}
+.card-desc{font-size:12px;letter-spacing:1px;color:rgba(220,200,170,.7);margin-bottom:20px;position:relative;z-index:2;}
+.card-link{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:10px;letter-spacing:3px;color:var(--gold);
+  text-transform:uppercase;text-decoration:none;
+  position:relative;z-index:2;transition:gap .3s;
+}
+.card-link:hover{gap:16px;}
+.card-link svg{transition:transform .3s;}
+.card-link:hover svg{transform:translateX(4px);}
+/* Room illustration SVGs embedded inline */
+.room-svg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.25;}
+
+/* ── FEATURES ── */
+.features{
+  position:relative;z-index:2;
+  padding:80px 8% 120px;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.features-visual{
+  position:relative;
+  height:580px;perspective:800px;
+}
+/* 3D rotating display shelf */
+.shelf-3d{
+  position:relative;width:100%;height:100%;
+  transform-style:preserve-3d;
+  animation:shelfRotate 20s ease-in-out infinite;
+}
+@keyframes shelfRotate{
+  0%,100%{transform:rotateY(-15deg) rotateX(5deg);}
+  50%{transform:rotateY(15deg) rotateX(-5deg);}
+}
+.shelf-face{
+  position:absolute;width:80%;height:80%;
+  top:10%;left:10%;
+  border:1px solid rgba(201,168,76,.2);
+  background:linear-gradient(135deg,rgba(201,168,76,.06) 0%,rgba(240,232,220,.9) 100%);
+  display:grid;grid-template-columns:1fr 1fr;gap:2px;
+  padding:20px;
+  transform-style:preserve-3d;
+}
+.mini-card{
+  background:#f0e8dc;
+  border:1px solid rgba(160,110,30,.15);
+  padding:20px;
+  position:relative;overflow:hidden;
+  transition:transform .4s;
+}
+.mini-card:hover{transform:translateZ(20px);}
+.mini-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.mini-icon{
+  width:40px;height:40px;margin-bottom:16px;
+  border:1px solid rgba(201,168,76,.2);
+  display:flex;align-items:center;justify-content:center;
+}
+.mini-icon svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1;}
+.mini-title{font-size:13px;letter-spacing:1px;margin-bottom:6px;color:var(--black);}
+.mini-text{font-size:11px;color:#7a6040;line-height:1.6;}
+.shelf-glow{
+  position:absolute;inset:-40px;
+  background:radial-gradient(ellipse at 50% 50%,rgba(201,168,76,.05) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+.features-text{}
+.features-text .section-label{margin-top:0;}
+.features-text h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(36px,4vw,58px);font-weight:700;
+  line-height:1.15;margin-bottom:28px;
+}
+.features-text h2 em{font-style:italic;color:var(--gold);}
+.features-text p{font-size:14px;color:#7a6040;line-height:1.9;margin-bottom:48px;font-weight:300;}
+.feature-list{display:flex;flex-direction:column;gap:0;}
+.feat-item{
+  display:flex;align-items:flex-start;gap:20px;
+  padding:20px 0;border-bottom:1px solid rgba(201,168,76,.08);
+  opacity:0;transform:translateX(30px);transition:all .5s;
+}
+.feat-item.visible{opacity:1;transform:translateX(0);}
+.feat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:32px;font-weight:300;color:rgba(201,168,76,.3);
+  line-height:1;min-width:44px;
+}
+.feat-body h4{font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.feat-body p{font-size:12px;color:#7a6040;line-height:1.7;}
+
+/* ── TESTIMONIAL ── */
+.testimonial{
+  position:relative;z-index:2;
+  padding:100px 8%;
+  text-align:center;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(135deg,rgba(201,168,76,.05) 0%,rgba(248,242,232,1) 50%,rgba(201,168,76,.05) 100%);
+}
+.quote-mark{
+  font-family:'Cormorant Garamond',serif;
+  font-size:120px;font-weight:300;line-height:.6;
+  color:rgba(201,168,76,.15);margin-bottom:0;
+}
+.quote-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(22px,3vw,36px);
+  font-style:italic;font-weight:300;
+  line-height:1.6;max-width:720px;margin:0 auto 32px;
+  color:var(--black);
+}
+.quote-author{font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;}
+
+/* ── PROCESS ── */
+.process{position:relative;z-index:2;padding:120px 8%;}
+.process-header{text-align:center;margin-bottom:80px;}
+.process-header h2{font-family:'Playfair Display',serif;font-size:clamp(40px,4vw,60px);font-weight:700;}
+.process-header h2 em{font-style:italic;color:var(--gold);}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;position:relative;margin-top:10px;}
+.steps::before{
+  content:'';position:absolute;top:-20px;left:12.5%;right:12.5%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-dim),var(--gold-dim),transparent);
+  z-index:0;
+}
+.steps::after{
+  content:'';position:absolute;bottom:-20px;left:12.5%;right:12.5%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-dim),var(--gold-dim),transparent);
+  z-index:0;
+}
+.step{
+  padding:48px 32px;text-align:center;
+  background:rgba(255,250,244,.8);border:1px solid rgba(160,110,30,.2);
+  position:relative;z-index:1;
+  opacity:0;transform:translateY(40px);transition:all .6s;
+}
+.step.visible{opacity:1;transform:translateY(0);}
+.step:hover{background:rgba(255,248,235,.95);border-color:rgba(201,168,76,.5);}
+.step-num{
+  width:64px;height:64px;border:1px solid var(--gold-dim);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 24px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;font-weight:300;color:var(--gold);
+  background:var(--black);
+  transition:all .4s;
+  position:relative;
+}
+.step-num::after{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  border:1px solid rgba(201,168,76,.1);
+  animation:stepPulse 3s ease-in-out infinite;
+}
+@keyframes stepPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.1);opacity:.5;}}
+.step:hover .step-num{background:var(--gold);color:var(--black);border-color:var(--gold);}
+.step h4{font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;color:var(--black);}
+.step p{font-size:12px;color:#7a6040;line-height:1.7;}
+
+/* ── CTA ── */
+.cta{
+  position:relative;z-index:2;
+  padding:140px 8%;text-align:center;overflow:hidden;
+}
+.cta-bg-art{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(201,168,76,.12) 0%,transparent 70%);
+}
+.cta-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(160,110,30,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(160,110,30,.08) 1px,transparent 1px);
+  background-size:50px 50px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 0%,transparent 100%);
+}
+.cta-inner{position:relative;z-index:2;}
+.cta h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(44px,6vw,84px);font-weight:900;
+  line-height:1;margin-bottom:24px;
+}
+.cta h2 em{font-style:italic;color:var(--gold);}
+.cta p{font-size:14px;color:#7a6040;letter-spacing:2px;text-transform:uppercase;margin-bottom:52px;}
+.cta-logo{
+  display:block;height:68px;max-width:220px;object-fit:contain;margin:0 auto 36px;
+  filter:drop-shadow(0 0 20px rgba(201,168,76,.3));
+  animation:logoFloat 6s ease-in-out infinite;
+}
+
+/* Phone number popup */
+.phone-modal{
+  position:fixed;inset:0;z-index:10000;
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .28s ease,visibility .28s ease;
+}
+.phone-modal.phone-modal--open{
+  opacity:1;visibility:visible;pointer-events:auto;
+}
+.phone-modal-backdrop{
+  position:absolute;inset:0;background:rgba(26,14,4,.5);
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+}
+.phone-modal-dialog{
+  position:relative;z-index:1;width:100%;max-width:420px;
+  background:var(--warm-white);border:1px solid var(--border);
+  padding:44px 32px 32px;text-align:center;
+  box-shadow:0 28px 64px rgba(0,0,0,.18);
+}
+.phone-modal-close{
+  position:absolute;top:12px;right:12px;width:40px;height:40px;
+  border:1px solid transparent;border-radius:4px;
+  background:transparent;color:var(--muted);font-size:22px;line-height:1;
+  cursor:pointer;transition:color .2s,border-color .2s,background .2s;
+}
+.phone-modal-close:hover,.phone-modal-close:focus-visible{
+  color:var(--black);border-color:var(--border);background:rgba(201,168,76,.08);outline:none;
+}
+.phone-modal-label{
+  font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);
+  margin-bottom:14px;font-weight:300;
+}
+.phone-modal-number{
+  font-family:'Playfair Display',serif;font-size:clamp(1.75rem,5.5vw,2.25rem);
+  font-weight:700;color:var(--black);letter-spacing:.02em;margin-bottom:28px;
+}
+.phone-modal-actions{
+  display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+}
+.phone-modal-actions .btn-gold,
+.phone-modal-actions .btn-outline{
+  flex:1 1 140px;min-width:140px;padding:16px 20px;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+}
+.phone-modal-actions .btn-outline:hover{background:rgba(37,211,102,.08);border-color:#25d366;color:#1a7a3e;}
+
+/* ── FOOTER ── */
+footer{
+  position:relative;z-index:2;
+  border-top:1px solid var(--border);
+  padding:60px 8%;
+  display:grid;grid-template-columns:1fr 2fr 1fr;gap:40px;align-items:start;
+}
+.footer-brand img{height:44px;max-width:180px;object-fit:contain;margin-bottom:16px;filter:brightness(.8);}
+.footer-brand p{font-size:12px;color:#7a6040;line-height:1.8;max-width:240px;}
+.footer-links{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+.footer-col h5{font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-col a{font-size:12px;color:#7a6040;text-decoration:none;transition:color .3s;}
+.footer-col a:hover{color:var(--black);}
+.footer-hours{text-align:right;}
+
+/* Same layout as desktop on all widths; hide custom cursor when there is no hover */
+@media (hover:none){
+  .cursor,.cursor-ring{display:none!important;}
+  body{cursor:auto;}
+}
+.nav-brand{flex-shrink:0;display:flex;align-items:center;}
+.nav-toggle{
+  display:none;align-items:center;justify-content:center;
+  width:48px;height:48px;margin-left:auto;padding:0;
+  border:1px solid var(--gold-dim);border-radius:4px;
+  background:rgba(248,242,232,.95);color:var(--gold-dim);
+  cursor:pointer;transition:background .25s,border-color .25s;
+}
+.nav-toggle:hover,.nav-toggle:focus-visible{background:rgba(201,168,76,.12);border-color:var(--gold);outline:none;}
+.nav-toggle-bar{
+  display:block;width:22px;height:2px;background:var(--black);
+  position:relative;transition:transform .25s,opacity .25s;
+}
+.nav-toggle-bar::before,.nav-toggle-bar::after{
+  content:'';position:absolute;left:0;width:22px;height:2px;background:var(--black);
+  transition:transform .25s;
+}
+.nav-toggle-bar::before{top:-7px;}
+.nav-toggle-bar::after{top:7px;}
+nav.nav-open .nav-toggle-bar{background:transparent;}
+nav.nav-open .nav-toggle-bar::before{transform:translateY(7px) rotate(45deg);}
+nav.nav-open .nav-toggle-bar::after{transform:translateY(-7px) rotate(-45deg);}
+.nav-panel{display:flex;align-items:center;gap:40px;flex:1;justify-content:flex-end;min-width:0;}
+.cta-btns{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+
+@media (max-width:900px){
+  nav{padding:16px 20px;flex-wrap:wrap;align-items:center;}
+  .nav-toggle{display:flex;}
+  .nav-panel{
+    flex-direction:column;align-items:stretch;gap:0;
+    width:100%;flex-basis:100%;order:3;
+    max-height:0;overflow:hidden;opacity:0;
+    transition:max-height .4s ease,opacity .3s ease,padding .3s ease;
+    border-top:1px solid transparent;
+  }
+  nav.nav-open .nav-panel{
+    max-height:min(70vh,420px);opacity:1;padding-top:16px;padding-bottom:8px;
+    border-color:var(--border);overflow-y:auto;-webkit-overflow-scrolling:touch;
+  }
+  .nav-links{
+    flex-direction:column;gap:0;width:100%;
+  }
+  .nav-links li{border-bottom:1px solid rgba(160,110,30,.12);}
+  .nav-links a{display:block;padding:16px 4px;font-size:12px;letter-spacing:2px;}
+  .nav-links a::after{display:none;}
+  .nav-cta{text-align:center;padding:16px 24px;margin-top:8px;}
+  .hero{padding-top:48px;}
+  .hero-logo-wrap{margin-top:88px;margin-bottom:32px;}
+  .hero-logo-wrap img{height:100px;max-width:260px;}
+  .hero-tag{font-size:9px;letter-spacing:3px;padding:0 8px;}
+  .hero-tag::before,.hero-tag::after{margin:0 6px;}
+  .hero-sub{font-size:11px;letter-spacing:2px;padding:0 8px;line-height:1.7;margin-bottom:40px;}
+  .collection{padding:72px 5%;}
+  .section-title{margin-bottom:40px;}
+  .cards-3d{grid-template-columns:1fr;gap:16px;}
+  .card-3d{height:auto;min-height:360px;}
+  .features{
+    padding:56px 5% 72px;
+    grid-template-columns:1fr;gap:48px;
+  }
+  .features-visual{height:auto;min-height:320px;perspective:none;}
+  .shelf-3d{animation:none;transform:none;}
+  .shelf-face{
+    position:relative;top:auto;left:auto;width:100%;height:auto;
+    padding:16px;gap:12px;border-radius:8px;
+  }
+  .mini-card{padding:16px;}
+  .features-text{text-align:center;}
+  .features-text .section-label{justify-content:center;}
+  .testimonial{padding:56px 5%;}
+  .quote-mark{font-size:72px;}
+  .process{padding:72px 5%;}
+  .process-header{margin-bottom:48px;}
+  .steps{grid-template-columns:1fr;gap:12px;}
+  .steps::before,.steps::after{display:none;}
+  .step{padding:36px 24px;}
+  .cta{padding:72px 5%;}
+  .cta h2 br{display:none;}
+  .cta p{font-size:12px;letter-spacing:1.5px;margin-bottom:36px;padding:0 8px;}
+  .cta-logo{height:56px;max-width:200px;margin-bottom:28px;}
+  .cta-btns{flex-direction:column;align-items:stretch;gap:14px;padding:0 8px;max-width:360px;margin:0 auto;}
+  .cta-btns .btn-gold,.cta-btns .btn-outline{text-align:center;padding:16px 28px;width:100%;box-sizing:border-box;}
+  .phone-modal-actions{flex-direction:column;}
+  .phone-modal-actions .btn-gold,.phone-modal-actions .btn-outline{width:100%;flex:1 1 auto;}
+  footer{
+    padding:40px 5%;
+    grid-template-columns:1fr;gap:36px;text-align:center;
+  }
+  .footer-brand p{margin:0 auto;}
+  .footer-links{grid-template-columns:1fr;gap:28px;}
+  .footer-bottom{flex-direction:column;gap:12px;text-align:center;}
+  .footer-hours{text-align:center;}
+}
+
+@media (max-width:480px){
+  nav{padding:14px 16px;}
+  .hero-logo-wrap{margin-top:76px;}
+  .hero-logo-wrap img{height:88px;max-width:220px;}
+  .marquee-track{gap:36px;}
+  .collection{padding:56px 4%;}
+  .card-3d{min-height:300px;}
+  .card-inner{padding:28px 22px;}
+  .card-name{font-size:24px;}
+  .features-text h2{font-size:clamp(28px,8vw,40px);}
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-brand"><img src="Untitled design.png" alt="Ambica Home Decor Logo" style="height: 52px; filter: drop-shadow(0 0 12px rgba(201,168,76,.3));"></a>
+  <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-panel">
+    <span class="nav-toggle-bar" aria-hidden="true"></span>
+  </button>
+  <div class="nav-panel" id="nav-panel">
+    <ul class="nav-links">
+      <li><a href="#collection">Collection</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Book Consultation</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="deco-lines"></div>
+  <div class="hero-content">
+    <div class="hero-logo-wrap">
+      <img src="Untitled design.png" alt="Home Decor Shop Logo">
+    </div>
+    <div class="hero-tag">·Home Decor / Wall Art / Artifical Plants</div>
+    
+    <p class="hero-sub">Seating Masterpieces · Designed to Improve · Crafted for Comfort</p>
+      </div>
+  </section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Living Rooms</span><span class="dot">◆</span>
+    <span>Bedrooms</span><span class="dot">◆</span>
+    <span>Dining Spaces</span><span class="dot">◆</span>
+    <span>Home Offices</span><span class="dot">◆</span>
+    <span>Outdoor Febics</span><span class="dot">◆</span>
+    <span>Luxury Fabrics</span><span class="dot">◆</span>
+    <span>Artifical Plants</span><span class="dot">◆</span>
+    <span>Custom Furniture</span><span class="dot">◆</span>
+    <!-- duplicate for seamless loop -->
+    <span>Living Rooms</span><span class="dot">◆</span>
+    <span>Bedrooms</span><span class="dot">◆</span>
+    <span>Dining Spaces</span><span class="dot">◆</span>
+    <span>Home Offices</span><span class="dot">◆</span>
+    <span>Outdoor Febrics</span><span class="dot">◆</span>
+    <span>Luxury Fabrics</span><span class="dot">◆</span>
+    <span>Artifical Plants</span><span class="dot">◆</span>
+    <span>Custom Furniture</span><span class="dot">◆</span>
+  </div>
+</div>
+
+<!-- COLLECTION -->
+<section class="collection" id="collection">
+  <div class="section-label">Our Curations</div>
+  <h2 class="section-title">Spaces Designed for <em>Living</em></h2>
+
+  <div class="cards-3d">
+    <!-- Card 1: Living Room -->
+    <div class="card-3d">
+      <div class="card-deco"></div>
+      <div class="card-visual room-living">
+        <div class="room-svg">
+          <svg width="320" height="240" viewBox="0 0 320 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- sofa -->
+            <rect x="60" y="150" width="200" height="55" rx="6" fill="rgba(201,168,76,0.3)" stroke="rgba(201,168,76,0.5)" stroke-width="1"/>
+            <rect x="60" y="130" width="200" height="30" rx="4" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+            <rect x="55" y="130" width="25" height="75" rx="4" fill="rgba(201,168,76,0.25)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+            <rect x="240" y="130" width="25" height="75" rx="4" fill="rgba(201,168,76,0.25)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+            <!-- coffee table -->
+            <rect x="120" y="210" width="80" height="25" rx="2" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+            <!-- lamp -->
+            <line x1="280" y1="80" x2="280" y2="150" stroke="rgba(201,168,76,0.4)" stroke-width="1.5"/>
+            <ellipse cx="280" cy="75" rx="18" ry="12" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="1"/>
+            <circle cx="280" cy="75" r="4" fill="rgba(201,168,76,0.6)"/>
+            <!-- rug -->
+            <ellipse cx="160" cy="215" rx="90" ry="15" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="1" stroke-dasharray="4 3"/>
+            <!-- art frame -->
+            <rect x="120" y="30" width="80" height="60" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="1.5"/>
+            <rect x="128" y="38" width="64" height="44" fill="rgba(201,168,76,0.05)"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-inner">
+        <span class="card-tag">01 · Living</span>
+        <h3 class="card-name">Living Room</h3>
+        <p class="card-desc">Warm palettes · Statement seating · Artisan accents</p>
+        <a href="living-room.html" class="card-link">Explore <svg width="16" height="8" viewBox="0 0 16 8" fill="none"><path d="M0 4H14M11 1L14 4L11 7" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+
+    <!-- Card 2: Bedroom -->
+    <div class="card-3d">
+      <div class="card-deco"></div>
+      <div class="card-visual room-bedroom">
+        <div class="room-svg">
+          <svg width="320" height="240" viewBox="0 0 320 240" fill="none">
+            <!-- bed -->
+            <rect x="80" y="120" width="160" height="100" rx="4" fill="rgba(150,170,200,0.2)" stroke="rgba(150,180,220,0.4)" stroke-width="1"/>
+            <rect x="80" y="100" width="160" height="30" rx="4" fill="rgba(150,170,200,0.3)" stroke="rgba(150,180,220,0.5)" stroke-width="1"/>
+            <!-- pillows -->
+            <rect x="96" y="108" width="52" height="22" rx="10" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <rect x="172" y="108" width="52" height="22" rx="10" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <!-- nightstand -->
+            <rect x="36" y="148" width="36" height="50" rx="2" fill="rgba(150,180,220,0.15)" stroke="rgba(150,180,220,0.3)" stroke-width="1"/>
+            <rect x="248" y="148" width="36" height="50" rx="2" fill="rgba(150,180,220,0.15)" stroke="rgba(150,180,220,0.3)" stroke-width="1"/>
+            <!-- lamp -->
+            <line x1="54" y1="120" x2="54" y2="148" stroke="rgba(201,168,76,0.5)" stroke-width="1"/>
+            <ellipse cx="54" cy="116" rx="14" ry="9" fill="none" stroke="rgba(201,168,76,0.6)" stroke-width="1"/>
+            <!-- window -->
+            <rect x="120" y="20" width="80" height="60" fill="rgba(150,200,255,0.05)" stroke="rgba(150,200,255,0.2)" stroke-width="1"/>
+            <line x1="160" y1="20" x2="160" y2="80" stroke="rgba(150,200,255,0.2)" stroke-width="1"/>
+            <line x1="120" y1="50" x2="200" y2="50" stroke="rgba(150,200,255,0.2)" stroke-width="1"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-inner">
+        <span class="card-tag">02 · Bedroom</span>
+        <h3 class="card-name">Bedroom</h3>
+        <p class="card-desc">Serene retreats · Plush textiles · Bespoke headboards</p>
+        <a href="bedroom.html" class="card-link">Explore <svg width="16" height="8" viewBox="0 0 16 8" fill="none"><path d="M0 4H14M11 1L14 4L11 7" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+
+    <!-- Card 3: Dining -->
+    <div class="card-3d">
+      <div class="card-deco"></div>
+      <div class="card-visual room-dining">
+        <div class="room-svg">
+          <svg width="320" height="240" viewBox="0 0 320 240" fill="none">
+            <!-- dining table -->
+            <ellipse cx="160" cy="170" rx="100" ry="40" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.3)" stroke-width="1.5"/>
+            <line x1="160" y1="130" x2="160" y2="210" stroke="rgba(201,168,76,0.2)" stroke-width="1"/>
+            <!-- chairs -->
+            <rect x="60" y="155" width="30" height="30" rx="4" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+            <rect x="230" y="155" width="30" height="30" rx="4" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+            <rect x="110" y="195" width="30" height="30" rx="4" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.25)" stroke-width="1"/>
+            <rect x="180" y="195" width="30" height="30" rx="4" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.25)" stroke-width="1"/>
+            <!-- chandelier -->
+            <circle cx="160" cy="50" r="20" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="1"/>
+            <line x1="160" y1="10" x2="160" y2="30" stroke="rgba(201,168,76,0.4)" stroke-width="1.5"/>
+            <circle cx="148" cy="60" r="3" fill="rgba(201,168,76,0.6)"/>
+            <circle cx="160" cy="64" r="3" fill="rgba(201,168,76,0.6)"/>
+            <circle cx="172" cy="60" r="3" fill="rgba(201,168,76,0.6)"/>
+            <!-- candles on table -->
+            <rect x="152" y="148" width="4" height="14" fill="rgba(255,200,100,0.4)"/>
+            <rect x="164" y="146" width="4" height="16" fill="rgba(255,200,100,0.4)"/>
+            <circle cx="154" cy="147" r="2" fill="rgba(255,220,100,0.8)"/>
+            <circle cx="166" cy="145" r="2" fill="rgba(255,220,100,0.8)"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-inner">
+        <span class="card-tag">03 · Dining</span>
+        <h3 class="card-name">Dining Room</h3>
+        <p class="card-desc">Intimate gatherings · Fine dining tables · Chandelier drama</p>
+        <a href="dining.html" class="card-link">Explore <svg width="16" height="8" viewBox="0 0 16 8" fill="none"><path d="M0 4H14M11 1L14 4L11 7" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="about">
+  <div class="features-visual">
+    <div class="shelf-glow"></div>
+    <div class="shelf-3d">
+      <div class="shelf-face">
+        <div class="mini-card">
+          <div class="mini-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="mini-title">Interior Design</div>
+          <div class="mini-text">Full-room concept to completion service</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M2 12h4M18 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          </div>
+          <div class="mini-title">Artisan Lighting</div>
+          <div class="mini-text">Bespoke fixtures that define atmosphere</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+          </div>
+          <div class="mini-title">Custom Furniture</div>
+          <div class="mini-text">Handcrafted pieces built to last generations</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-icon">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <div class="mini-title">Luxury Textiles</div>
+          <div class="mini-text">Curated fabrics from global artisans</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="features-text">
+    <div class="section-label">Why Ambica</div>
+    <h2>Crafting <em>Extraordinary</em> Homes Since Day One</h2>
+    <p>Every corner of your home deserves intention. We blend timeless elegance with modern sensibility — creating interiors that are uniquely, unmistakably yours.</p>
+    <div class="feature-list">
+      <div class="feat-item">
+        <span class="feat-num">01</span>
+        <div class="feat-body">
+          <h4>Bespoke Consultation</h4>
+          <p>One-on-one sessions with our master designers to understand your vision.</p>
+        </div>
+      </div>
+      <div class="feat-item">
+        <span class="feat-num">02</span>
+        <div class="feat-body">
+          <h4>Premium Materials Only</h4>
+          <p>We source only the finest woods, stones, metals and textiles from trusted artisans.</p>
+        </div>
+      </div>
+      <!-- <div class="feat-item">
+        <span class="feat-num">03</span>
+        <div class="feat-body">
+          <h4>White-Glove Installation</h4>
+          <p>Our team handles every detail — from placement to final styling.</p>
+        </div>
+      </div> -->
+      <div class="feat-item">
+        <span class="feat-num">03</span>
+        <div class="feat-body">
+          <h4>Lifetime Support</h4>
+          <p>Long after installation, we remain your home's trusted decor partner.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial">
+  <div class="quote-mark">"</div>
+  <p class="quote-text">Ambica Home Decor transformed our house into something we had only dreamed about. Every piece, every texture, every light — perfectly considered.</p>
+  <div class="quote-author">— Priya & Rohan Mehta, Ankleshwar</div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-header">
+    <div class="section-label" style="justify-content:center;">How It Works</div>
+    <h2>The <em>Ambica</em> Experience</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h4>Consultation</h4>
+      <p>Share your vision, lifestyle, and aspirations with our design team in a private session.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h4>Crafting</h4>
+      <p>Master craftsmen bring your pieces to life using premium materials and time-honoured techniques.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h4>Reveal</h4>
+      <p>We deliver, install, and style every element — then hand the keys back to your dream home.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <div class="cta-bg-art"></div>
+  <div class="cta-grid"></div>
+  <div class="cta-inner">
+    <img src="Untitled design.png" alt="Home Decor Shop Logo" class="cta-logo">
+    <h2>Ready to Transform<br>Your <em>Home?</em></h2>
+    <p>Book a free consultation with our design experts</p>
+    <div class="cta-btns">
+      <button type="button" class="btn-gold" id="btn-call-popup">Call Us Today</button>
+      <a href="https://wa.me/919081622516?text=Hello%2C%20I%27d%20like%20to%20send%20an%20enquiry%20about%20Ambica%20Home%20Decor." class="btn-outline" target="_blank" rel="noopener noreferrer">Send Enquiry</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <img src="Untitled design.png" alt="Home Decor Shop Logo">
+    <p>Luxury home décor crafted with passion and precision. Transforming houses into homes since our founding.</p>
+  </div>
+  <div class="footer-links">
+    <div class="footer-col">
+      <h5>Collections</h5>
+      <ul>
+        <li><a href="living-room.html">Living Room</a></li>
+        <li><a href="bedroom.html">Bedroom</a></li>
+        <li><a href="dining.html">Dining Room</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a>Interior Design</a></li>
+        <li><a>Custom Furniture</a></li>
+        <li><a>Lighting Design</a></li>
+        <li><a>Textile Curation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="#" data-open-phone-modal>Contact</a></li>
+        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=ambica+home+decor" target="_blank" rel="noopener noreferrer">Location</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-hours">
+    <p style="font-size:12px;color:var(--gold);letter-spacing:2px;margin-bottom:8px;"><a href="https://www.google.com/maps/search/?api=1&amp;query=ambica+home+decor" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:none;">· Shop No.1734, Dhulia Road, nr. Dhru Motors, Ten, Surat, Bardoli, Gujarat 394601</a></p>
+    <p style="font-size:11px;color:var(--muted);">Mon–Sat: 8:15am – 7pm</p>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Ambica Home Decor. All rights reserved.</p>
+    <p>Crafted with care in Gujarat, India</p>
+  </div>
+</footer>
+
+<div id="phone-modal" class="phone-modal" aria-hidden="true">
+  <div class="phone-modal-backdrop" data-close-phone-modal tabindex="-1"></div>
+  <div class="phone-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="phone-modal-title">
+    <button type="button" class="phone-modal-close" data-close-phone-modal aria-label="Close">&times;</button>
+    <p class="phone-modal-label">Contact us</p>
+    <p id="phone-modal-title" class="phone-modal-number">+91 90816 22516</p>
+    <div class="phone-modal-actions">
+      <a href="tel:+919081622516" class="btn-gold">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Dial
+      </a>
+      <a href="https://wa.me/919081622516?text=Hello%2C%20I%27d%20like%20to%20get%20in%20touch%20with%20Ambica%20Home%20Decor." class="btn-outline" target="_blank" rel="noopener noreferrer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+// Cursor
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function tick(){cursor.style.left=mx+'px';cursor.style.top=my+'px';rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+document.querySelectorAll('a,button,.card-3d,.step,.feat-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';ring.style.width='56px';ring.style.height='56px';});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='36px';ring.style.height='36px';});
+});
+
+// Nav scroll + mobile menu
+const nav=document.getElementById('nav');
+const navToggle=document.getElementById('nav-toggle');
+const navPanel=document.getElementById('nav-panel');
+const phoneModal=document.getElementById('phone-modal');
+const btnCallPopup=document.getElementById('btn-call-popup');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',scrollY>60);});
+if(navToggle&&navPanel){
+  const setOpen=o=>{
+    nav.classList.toggle('nav-open',o);
+    navToggle.setAttribute('aria-expanded',o);
+    navToggle.setAttribute('aria-label',o?'Close menu':'Open menu');
+    const phoneOpen=phoneModal&&phoneModal.classList.contains('phone-modal--open');
+    document.body.style.overflow=o||phoneOpen?'hidden':'';
+  };
+  navToggle.addEventListener('click',()=>setOpen(!nav.classList.contains('nav-open')));
+  navPanel.querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click',()=>setOpen(false));
+  });
+  window.addEventListener('resize',()=>{if(innerWidth>900)setOpen(false);});
+}
+
+function openPhoneModal(){
+  if(!phoneModal)return;
+  phoneModal.classList.add('phone-modal--open');
+  phoneModal.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  if(nav&&nav.classList.contains('nav-open')){
+    nav.classList.remove('nav-open');
+    if(navToggle){
+      navToggle.setAttribute('aria-expanded','false');
+      navToggle.setAttribute('aria-label','Open menu');
+    }
+  }
+}
+function closePhoneModal(){
+  if(!phoneModal)return;
+  phoneModal.classList.remove('phone-modal--open');
+  phoneModal.setAttribute('aria-hidden','true');
+  const navOpen=nav&&nav.classList.contains('nav-open');
+  document.body.style.overflow=navOpen?'hidden':'';
+}
+if(phoneModal){
+  document.querySelectorAll('[data-open-phone-modal],#btn-call-popup').forEach(el=>{
+    el.addEventListener('click',e=>{
+      e.preventDefault();
+      openPhoneModal();
+    });
+  });
+  phoneModal.querySelectorAll('[data-close-phone-modal]').forEach(el=>{
+    el.addEventListener('click',closePhoneModal);
+  });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&phoneModal.classList.contains('phone-modal--open'))closePhoneModal();
+  });
+}
+
+// Particle canvas (gold dust)
+const canvas=document.getElementById('particle-canvas');
+const ctx=canvas.getContext('2d');
+let W,H,particles=[];
+function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight;}
+resize();window.addEventListener('resize',resize);
+for(let i=0;i<80;i++)particles.push({
+  x:Math.random()*2000,y:Math.random()*1200,
+  r:Math.random()*1.5+.3,
+  vx:(Math.random()-.5)*.2,vy:-Math.random()*.3-.1,
+  alpha:Math.random()*.4+.1,
+  twinkle:Math.random()*Math.PI*2
+});
+function drawParticles(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;p.twinkle+=.015;
+    if(p.y<-10)p.y=H+10;if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+    const a=p.alpha*(0.6+0.4*Math.sin(p.twinkle));
+    ctx.beginPath();ctx.arc(p.x%W,p.y%H,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(201,168,76,${a})`;ctx.fill();
+  });
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+// Scroll reveal
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.12});
+document.querySelectorAll('.card-3d,.step,.feat-item').forEach((el,i)=>{
+  el.style.transitionDelay=(i%4)*.12+'s';
+  observer.observe(el);
+});
+
+// 3D card tilt (fine pointer only — avoids jank on touch)
+if(window.matchMedia('(pointer:fine)').matches){
+  document.querySelectorAll('.card-3d').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-.5;
+      const y=(e.clientY-r.top)/r.height-.5;
+      card.style.transform=`translateY(-8px) rotateY(${x*14}deg) rotateX(${-y*10}deg) scale(1.02)`;
+    });
+    card.addEventListener('mouseleave',()=>{card.style.transform='';});
+  });
+}
+
+// Parallax on scroll
+window.addEventListener('scroll',()=>{
+  const sy=scrollY;
+  const heroLogo=document.querySelector('.hero-logo-wrap img');
+  if(heroLogo)heroLogo.style.transform=`translateY(${sy*0.2}px)`;
+});
+</script>
+</body>
+</html>
